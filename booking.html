@@ -1,2 +1,67 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f1ea"><meta name="description" content="Arrange an initial interior design consultation with Decor Republic."><title>Book a Consultation — Decor Republic</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="pages.css"><script defer src="script.js"></script></head><body><header class="site-header"><a class="brand" href="index.html"><span class="brand-mark"><span class="brand-initial-d">D</span><span class="brand-initial-r">R</span></span><span class="brand-word">DECOR<br>REPUBLIC</span><small>INTERIOR</small></a><button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation"><i></i><i></i></button><nav id="main-nav" class="main-nav"><a href="about.html">Studio</a><a href="services.html">Services</a><a href="projects.html">Projects</a><a href="journal.html">Journal</a><a class="nav-cta" href="contact.html">Start a project <span>↗</span></a></nav></header><main><section class="inner-hero"><div><p class="eyebrow light">Let’s find a time to talk</p><h1>Begin with<br><em>a conversation.</em></h1></div></section><section class="page-wrap"><div class="page-copy"><p class="page-lead">Tell us a little about your project and we’ll arrange an initial conversation to learn what you need and explain how we can help.</p></div><div class="page-grid"><article class="page-card"><div><span class="eyebrow">01 · INITIAL CONSULTATION</span><h3>Let’s talk about your project.</h3><p>Share your space, ideas and plans. We’ll follow up by email to arrange a suitable time for an introductory call.</p><a class="text-link" href="mailto:info@decor-republic.com?subject=Initial%20consultation%20request">Request a call ↗</a></div></article><article class="page-card"><div><span class="eyebrow">02 · VISIT THE STUDIO</span><h3>Meet us in person.</h3><p>Prefer to talk face to face? Send us a note and we can arrange an appointment at our Central studio.</p><a class="text-link" href="mailto:info@decor-republic.com?subject=Studio%20appointment%20request">Request a studio visit ↗</a></div></article></div><p class="page-copy" style="margin-top:2rem;color:#665d54;line-height:1.8">This preview does not include Wix’s live calendar booking system, so requests are sent by email for the studio to confirm.</p></section><section class="page-cta"><p class="eyebrow">Prefer to write first?</p><h2>Send us a note about your plans.</h2><a href="contact.html">Go to contact form ↗</a></section></main><footer class="site-footer"><a class="brand footer-brand" href="index.html"><span class="brand-mark"><span class="brand-initial-d">D</span><span class="brand-initial-r">R</span></span><span class="brand-word">DECOR<br>REPUBLIC</span><small>INTERIOR</small></a><div class="footer-line"><span>© <span id="year"></span> Decor Republic.</span><a href="services.html">Services</a><a href="faq.html">FAQs</a><a href="contact.html">Contact</a></div></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f1ea">
+  <meta name="description" content="Request an interior design consultation with Decor Republic in Hong Kong.">
+  <title>Book a Consultation — Decor Republic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pages.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Decor Republic home"><span class="brand-mark"><span class="brand-initial-d">D</span><span class="brand-initial-r">R</span></span><span class="brand-word">DECOR<br>REPUBLIC</span><small>INTERIOR</small></a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Open navigation"><i></i><i></i></button>
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+      <a href="about.html">Studio</a><a href="services.html">Services</a><a href="projects.html">Projects</a><a href="journal.html">Journal</a><a class="nav-cta" href="contact.html">Start a project <span>↗</span></a>
+    </nav>
+  </header>
+  <main>
+    <section class="inner-hero"><div><p class="eyebrow light">Let’s find a time to talk</p><h1>Begin with<br><em>a conversation.</em></h1></div></section>
+    <section class="page-wrap">
+      <div class="page-copy">
+        <p class="page-lead">Tell us a little about your project and how you’d prefer us to reach you. The studio will follow up to arrange a suitable time.</p>
+        <form id="booking-form" class="contact-form">
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+          <input type="hidden" name="_subject" value="New consultation request — Decor Republic">
+          <label>Your name<input name="name" autocomplete="name" required></label>
+          <label>Email address<input name="email" type="email" autocomplete="email" required></label>
+          <label>Phone or WhatsApp number<input name="phone" type="tel" autocomplete="tel" required></label>
+          <label>Preferred contact method
+            <select name="preferred_contact" required>
+              <option value="">Choose one</option>
+              <option>Email</option>
+              <option>Phone call</option>
+              <option>WhatsApp</option>
+            </select>
+          </label>
+          <label>Best time to reach you<input name="best_time" placeholder="For example, weekday afternoons"></label>
+          <label>What kind of project is it?
+            <select name="project_type" required>
+              <option value="">Choose one</option>
+              <option>Residential design</option>
+              <option>Commercial design</option>
+              <option>Interior styling</option>
+              <option>Design consultation</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>Tell us about your project<textarea name="message" rows="5" required></textarea></label>
+          <button class="submit-button" type="submit">Send consultation request <span>↗</span></button>
+          <p class="form-note" role="status" aria-live="polite">We’ll reply using your preferred contact method.</p>
+          <p class="form-note">Your details will be sent to Decor Republic’s inbox through FormSubmit.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="index.html" aria-label="Decor Republic home"><span class="brand-mark"><span class="brand-initial-d">D</span><span class="brand-initial-r">R</span></span><span class="brand-word">DECOR<br>REPUBLIC</span><small>INTERIOR</small></a>
+    <div class="footer-line"><span>© <span id="year"></span> Decor Republic.</span><a href="services.html">Services</a><a href="faq.html">FAQs</a><a href="contact.html">Contact</a></div>
+  </footer>
+</body>
+</html>
 
