@@ -6,7 +6,9 @@ document.addEventListener('keydown', event => {
   }
 });
 document.addEventListener('click', event => {
-  if (menu?.open && !menu.contains(event.target)) menu.open = false;
+  if (!menu?.open) return;
+  const clickedMenuLink = event.target.closest('.menu nav a');
+  if (clickedMenuLink || !menu.contains(event.target)) menu.open = false;
 });
 
 const year = document.querySelector('#year');
@@ -56,9 +58,11 @@ const form = document.querySelector('#contact-form');
 if (form) {
   const method = form.elements.preferred_contact;
   const phone = form.elements.phone;
-  method.addEventListener('change', () => {
+  function syncPhoneRequirement() {
     phone.required = method.value === 'Phone call' || method.value === 'WhatsApp';
-  });
+  }
+  method.addEventListener('change', syncPhoneRequirement);
+  syncPhoneRequirement();
   form.addEventListener('submit', async event => {
     event.preventDefault();
     const status = form.querySelector('[role="status"]');
@@ -81,7 +85,7 @@ if (form) {
       }
       status.textContent = 'Thanks for submitting. We’ll get back to you soon!';
       form.reset();
-      phone.required = false;
+      syncPhoneRequirement();
     } catch {
       status.textContent = 'We couldn’t send the enquiry. Please try again or email info@decor-republic.com.';
     } finally {
