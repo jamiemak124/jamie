@@ -1,51 +1,91 @@
-const menu = document.querySelector('.menu-toggle');
-const nav = document.querySelector('#main-nav');
-menu?.addEventListener('click', () => {
-  const open = menu.getAttribute('aria-expanded') !== 'true';
-  menu.setAttribute('aria-expanded', String(open));
-  menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
-  nav.classList.toggle('open', open);
+const menu = document.querySelector('.menu');
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menu?.open) {
+    menu.open = false;
+    menu.querySelector('summary').focus();
+  }
 });
-nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-  nav.classList.remove('open');
-  menu?.setAttribute('aria-expanded', 'false');
-  menu?.setAttribute('aria-label', 'Open navigation');
-}));
+document.addEventListener('click', event => {
+  if (menu?.open && !menu.contains(event.target)) menu.open = false;
+});
 
 const year = document.querySelector('#year');
 if (year) year.textContent = new Date().getFullYear();
 
-document.querySelector('#contact-form')?.addEventListener('submit', async event => {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const status = form.querySelector('[role="status"]');
-  const submit = form.querySelector('button[type="submit"]');
-  const values = Object.fromEntries(new FormData(form).entries());
+const galleries = document.querySelectorAll('.gallery');
+if (galleries.length && typeof HTMLDialogElement !== 'undefined') {
+  const lightbox = document.createElement('dialog');
+  lightbox.id = 'lightbox';
+  lightbox.setAttribute('aria-label', 'Project photographs');
+  lightbox.innerHTML = '<img alt=""><div class="lightbox-controls"><button type="button" aria-label="Previous photograph">←</button><button type="button">Close</button><button type="button" aria-label="Next photograph">→</button></div>';
+  document.body.append(lightbox);
+  const image = lightbox.querySelector('img');
+  const [previous, close, next] = lightbox.querySelectorAll('button');
+  let collection = [];
+  let position = 0;
 
-  status.textContent = 'Sending your enquiry…';
-  submit.disabled = true;
-
-  try {
-    const response = await fetch('https://formsubmit.co/ajax/info@decor-republic.com', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(values)
-    });
-    const result = await response.json();
-
-    if (!response.ok || result.success === false || result.success === 'false') {
-      throw new Error(result.message || 'The enquiry could not be sent.');
-    }
-
-    form.reset();
-    status.textContent = 'Thanks — your enquiry has been sent. The studio will reply using your preferred contact method.';
-  } catch (error) {
-    status.textContent = 'We couldn’t send your enquiry just now. Please try again or email info@decor-republic.com.';
-  } finally {
-    submit.disabled = false;
+  function show(index) {
+    position = (index + collection.length) % collection.length;
+    const link = collection[position];
+    image.src = link.href;
+    image.alt = link.querySelector('img').alt;
+    previous.hidden = next.hidden = collection.length < 2;
   }
-});
 
+  for (const gallery of galleries) {
+    gallery.addEventListener('click', event => {
+      const link = event.target.closest('a[data-gallery]');
+      if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      collection = [...gallery.querySelectorAll('a[data-gallery]')];
+      show(collection.indexOf(link));
+      lightbox.showModal();
+      close.focus();
+    });
+  }
+  previous.addEventListener('click', () => show(position - 1));
+  next.addEventListener('click', () => show(position + 1));
+  close.addEventListener('click', () => lightbox.close());
+  lightbox.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft') show(position - 1);
+    if (event.key === 'ArrowRight') show(position + 1);
+  });
+}
+
+const form = document.querySelector('#contact-form');
+if (form) {
+  const method = form.elements.preferred_contact;
+  const phone = form.elements.phone;
+  method.addEventListener('change', () => {
+    phone.required = method.value === 'Phone call' || method.value === 'WhatsApp';
+  });
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const status = form.querySelector('[role="status"]');
+    const button = form.querySelector('button[type="submit"]');
+    const data = Object.fromEntries(new FormData(form));
+    status.textContent = 'Sending your enquiry…';
+    button.disabled = true;
+    try {
+      const url = new URL(form.action);
+      url.pathname = '/ajax' + url.pathname;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', Accept: 'application/json'},
+        body: JSON.stringify(data),
+        signal: AbortSignal.timeout(18000)
+      });
+      const result = await response.json();
+      if (!response.ok || ![true, 'true'].includes(result.success) || /activat|confirm your email/i.test(result.message || '')) {
+        throw new Error('Form delivery could not be confirmed');
+      }
+      status.textContent = 'Thanks for submitting. We’ll get back to you soon!';
+      form.reset();
+      phone.required = false;
+    } catch {
+      status.textContent = 'We couldn’t send the enquiry. Please try again or email info@decor-republic.com.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+}
